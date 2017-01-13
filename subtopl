@@ -1,0 +1,8 @@
+#!/bin/bash
+FILE="$@"
+EXT=`echo "$FILE" | awk -F . '{print $NF}'`
+BASE=`basename "$FILE" .$EXT`
+enca -c "$FILE"
+iconv -f UTF8 -t US-ASCII//TRANSLIT "$FILE" > "$BASE.tmp"
+mv "$BASE.tmp" "$FILE"
+echo "$FILE"
