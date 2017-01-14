@@ -1,8 +1,8 @@
 #!/bin/bash
 FILE="$@"
-EXT=`echo "$FILE" | awk -F . '{print $NF}'`
-BASE=`basename "$FILE" .$EXT`
-enca -c "$FILE"
-iconv -f UTF8 -t US-ASCII//TRANSLIT "$FILE" > "$BASE.tmp"
-mv "$BASE.tmp" "$FILE"
-echo "$FILE"
+test -f "$FILE" || exit 1
+C=$(cat "$FILE")
+C=$(echo "$C" | enconv)
+C=$(echo "$C" | iconv -f UTF8 -t US-ASCII//TRANSLIT)
+mv "$FILE" "$FILE~"
+echo "$C" > "$FILE"
