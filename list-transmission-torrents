@@ -1,9 +1,21 @@
 #!/bin/bash
-DIR="$HOME/.config/transmission-daemon/torrents"
-FILES=$(ls -t $DIR)
+
+### List transmission torrents sorted by AGE
+
+# Bash safety
+set -o errexit -o nounset -o pipefail
+
+# Torrents directory
+TORRENTS_DIR="$HOME/.config/transmission-daemon/torrents"
+
+# Get list of torrents
+TORRENTS=$(ls -t $TORRENTS_DIR)
+
+# Print torrents
 IFS=$'\n'
-for FILE in $FILES; do
-  AGE=$(($(date +%s) - $(stat -c %Y $DIR/$FILE)))
-  AGE=$(($AGE / 86400))
-  echo $(printf "%02dd" "$AGE") $FILE
+for TORRENT_FILE in $TORRENTS; do
+    printf -v CURRENT_EPOCH "%(%s)T"
+    TORRENT_AGE=$(stat -c %Y $TORRENTS_DIR/$TORRENT_FILE)
+    (( AGE_IN_DAYS = ( $CURRENT_EPOCH - $TORRENT_AGE ) / 86400 ))
+    printf "%02dd %s\n" "$AGE_IN_DAYS" "$TORRENT_FILE"
 done
