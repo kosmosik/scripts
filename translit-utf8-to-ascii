@@ -9,11 +9,11 @@ set -o errexit -o nounset -o pipefail
 FILE="$1"
 if [ -f "$FILE" ]; then
     # Convert file and swap files
-    echo "$0: Converting: $FILE"
+    echo "${0##*/}: Converting: $FILE"
     cat "$FILE" | enconv -x UTF-8 | iconv -f UTF8 -t US-ASCII//TRANSLIT > "$FILE.tmp"
     cp "$FILE" "$FILE.bak"
     mv "$FILE.tmp" "$FILE"
 else
-    echo "$0: No such file: $FILE"
+    echo "${0##*/}: No such file: $FILE"
     exit 1
 fi
