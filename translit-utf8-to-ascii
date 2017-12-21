@@ -10,9 +10,10 @@ FILE="$1"
 if [ -f "$FILE" ]; then
     # Convert file and swap files
     echo "${0##*/}: Converting: $FILE"
-    cat "$FILE" | enconv -x UTF-8 | iconv -f UTF8 -t US-ASCII//TRANSLIT > "$FILE.tmp"
+    TMP="$(mktemp)"
+    cat "$FILE" | enconv -x UTF-8 | iconv -f UTF8 -t US-ASCII//TRANSLIT > "$TMP"
     cp "$FILE" "$FILE.bak"
-    mv "$FILE.tmp" "$FILE"
+    mv "$TMP" "$FILE"
 else
     echo "${0##*/}: No such file: $FILE"
     exit 1
