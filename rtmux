@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Wrapper script to start tmux.
+
+# Safety
+set -o errexit -o nounset -o pipefail
+
+# Check if tmux is running
+if tmux ls; then
+    exec tmux -u attach
+else
+    exec tmux -u new
+fi
