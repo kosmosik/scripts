@@ -6,23 +6,23 @@
 set -o errexit -o nounset -o pipefail
 
 # Names
-OUTPUT="eDP-1"
-TOUCHPAD="Elan Touchpad"
-TOUCHSCREEN="Atmel maXTouch Touchscreen"
+OUT="eDP-1"
+TPAD="Elan Touchpad"
+TSCR="Atmel maXTouch Touchscreen"
 
 # Current rotation
-ROTATION="$(xrandr --query --verbose | awk "/$OUTPUT/ { print \$6 }")"
+ROT="$(xrandr --query --verbose | awk "/$OUT/ { print \$6 }")"
 
 # Switch depending on current rotation
-case "$ROTATION" in 
+case "$ROT" in 
     "normal")
     xrandr --orientation inverted
-    xinput set-prop "$TOUCHPAD" "Coordinate Transformation Matrix" -1 0 1 0 -1 1 0 0 1 || true
-    xinput set-prop "$TOUCHSCREEN" "Coordinate Transformation Matrix" -1 0 1 0 -1 1 0 0 1 || true
+    xinput set-prop "$TPAD" "Coordinate Transformation Matrix" -1 0 1 0 -1 1 0 0 1 || true
+    xinput set-prop "$TSCR" "Coordinate Transformation Matrix" -1 0 1 0 -1 1 0 0 1 || true
     ;;
     "inverted")
     xrandr --orientation normal
-    xinput set-prop "$TOUCPAD" "Coordinate Transformation Matrix" 1 0 0 0 1 0 0 0 1 || true
-    xinput set-prop "$TOUCHSCREEN" "Coordinate Transformation Matrix" 1 0 0 0 1 0 0 0 1 || true
+    xinput set-prop "$TPAD" "Coordinate Transformation Matrix" 1 0 0 0 1 0 0 0 1 || true
+    xinput set-prop "$TSCR" "Coordinate Transformation Matrix" 1 0 0 0 1 0 0 0 1 || true
     ;;
 esac
