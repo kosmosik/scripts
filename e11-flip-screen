@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Wrapper script to flip screen (and touchpad) on GLIMMER (Lenovo 11e Chromebook) devices
+
+# Safety
+set -o errexit -o nounset -o pipefail
+
+# Diplay name
+OUTPUT="eDP-1"
+
+# Get current rotation
+ROTATION="$(xrandr --query --verbose | awk "/$OUTPUT/ { print \$6 }")"
+
+# Switch depending on current rotation
+case "$ROTATION" in 
+    "normal")
+    xrandr --orientation inverted
+    xinput set-prop "Elan Touchscreen" "Coordinate Transformation Matrix" -1 0 1 0 -1 1 0 0 1 || true
+    ;;
+    "inverted")
+    xrandr --orientation normal
+    xinput set-prop "Elan Touchscreen" "Coordinate Transformation Matrix" 0 -1 1 1 0 0 0 0 1 || true
+    ;;
+esac
