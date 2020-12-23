@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Wrapper script to toggle the Alt+Tab shortcut on GNOME Wayland.
+
+# Safety
+set -o errexit -o nounset -o pipefail
+
+# Function to switch binding
+switch_binding() {
+    echo "Current binding is $CURR, switching to $1 ..."
+    gsettings set org.gnome.desktop.wm.keybindings switch-windows "$1"
+}
+
+# Bindings
+B1="['<Super>Tab']"
+B2="['<Alt>Tab', '<Super>Tab']"
+
+# Get current setting
+read CURR < <(gsettings get org.gnome.desktop.wm.keybindings switch-windows)
+
+# Switch bindings
+[[ "$CURR" == "$B1" ]] && switch_binding "$B2"
+[[ "$CURR" == "$B2" ]] && switch_binding "$B1"
