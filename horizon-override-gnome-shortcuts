@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab']"
+gsettings set org.gnome.mutter overlay-key "''"

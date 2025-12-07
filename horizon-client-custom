@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source "$HOME/.horizon-client-custom"
+
+gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab']"
+gsettings set org.gnome.mutter overlay-key "''"
+
+export GDK_SCALE="$HORIZON_CUSTOM_SCALE" GDK_DPI_SCALE="$HORIZON_CUSTOM_SCALE" CLUTTER_SCALE="$HORIZON_CUSTOM_SCALE"
+horizon-client --userName="$HORIZON_CUSTOM_USERNAME" --tokenUserName="$HORIZON_CUSTOM_USERNAME" --domainName="$HORIZON_CUSTOM_DOMAIN"
+
+gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab', '<Super>Tab']"
+gsettings set org.gnome.mutter overlay-key "'Super'"
