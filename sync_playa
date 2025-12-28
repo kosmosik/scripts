@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# error handling
+set -o errexit -o nounset -o pipefail
+
+# directories
+SRC="$1"
+DST="$2"
+
+# transfer
+rclone --progress --size-only sync "$SRC" "$DST"
+
+# sort FAT on destination
+fat-sorter.py "$DST"
+
+# sync cache
+sync

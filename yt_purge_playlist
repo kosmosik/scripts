@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# error handling
+set -o errexit -o nounset -o pipefail
+
+# setup environment
+PATH="$HOME/bin:$PATH"
+cd "$1"
+
+# read playlist IDs and create lookup array
+mapfile -t IDS < <(yt-dlp --batch-file ".playlist_url" --flat-playlist --print 'id')
+declare -A LOOKUP
+for ID in "${IDS[@]}"; do
+    LOOKUP["$ID"]=1
+done
+
+# remove files with IDs that do not exist in playlist
+for FILE in *; do
+    # ID pattern: 11 chars, A–Z, a–z, 0–9, -, _
+    if [[ $FILE =~ ([A-Za-z0-9_-]{11})\.[^.]+$ ]]; then
+       FILE_ID="${BASH_REMATCH[1]}"
+       if [[ ! ${LOOKUP["$FILE_ID"]+_} ]]; then
+           echo "$FILE: $FILE_ID: NOT found in playlist IDs!"
+           rm --verbose "$FILE"
+       fi
+    else
+       echo "$FILE: skipping: no track ID!"
+    fi
+done
