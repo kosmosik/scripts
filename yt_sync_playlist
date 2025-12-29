@@ -8,7 +8,7 @@ PATH="$HOME/bin:$PATH"
 cd "$1"
 
 # set output name format
-OUTPUT_FMT="%(title)s_%(id)s.%(ext)s"
+OUTPUT_FMT="%(title)s.%(id)s.%(ext)s"
 if [ -e ".output_fmt" ]; then
     OUTPUT_FMT="$(<.output_fmt)"
     echo "$1: custom name format: $OUTPUT_FMT"
