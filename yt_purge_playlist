@@ -16,8 +16,7 @@ done
 
 # remove files with IDs that do not exist in playlist
 for FILE in *; do
-    # ID pattern: 11 chars, A–Z, a–z, 0–9, -, _
-    if [[ $FILE =~ ([A-Za-z0-9_-]{11})\.[^.]+$ ]]; then
+    if [[ $FILE =~ \.([A-Za-z0-9_-]{8,16})\.[^.]+$ ]]; then
        FILE_ID="${BASH_REMATCH[1]}"
        if [[ ! ${LOOKUP["$FILE_ID"]+_} ]]; then
            echo "$FILE: $FILE_ID: NOT found in playlist IDs!"
