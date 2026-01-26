@@ -1,0 +1,9 @@
+#!/bin/bash
+
+read -r < <(gsettings get org.gnome.desktop.wm.keybindings switch-windows)
+
+if [[ $REPLY =~ "<Alt>Tab" ]]; then
+    echo "standard"
+else
+    echo "override"
+fi

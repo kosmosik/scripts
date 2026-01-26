@@ -20,7 +20,7 @@ for FILE in *; do
        FILE_ID="${BASH_REMATCH[1]}"
        if [[ ! ${LOOKUP["$FILE_ID"]+_} ]]; then
            echo "$FILE: $FILE_ID: NOT found in playlist IDs!"
-           rm --verbose "$FILE"
+           rm -i --verbose "$FILE"
        fi
     else
        echo "$FILE: skipping: no track ID!"
