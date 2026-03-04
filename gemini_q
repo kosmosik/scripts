@@ -1,0 +1,14 @@
+#!/bin/bash
+
+function gem() {
+  curl https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$GEMINI_API_KEY \
+    -H 'Content-Type: application/json' \
+    -X POST \
+    -d '{
+      "contents": [{
+        "parts":[{"text": "'"$*"' text only, be concise"}]
+      }]
+    }' 2>/dev/null | jq -r '.candidates[0].content.parts[0].text'
+}
+
+gem "$1"
