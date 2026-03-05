@@ -1,0 +1,12 @@
+[Unit]
+Description=simple API service to control idotmatrix screen
+After=network.target
+
+[Service]
+Environment=IDMMAC="%i"
+WorkingDirectory=%h/scripts
+ExecStart=/usr/bin/python3 -m uvicorn idotmatrix_screen_api:app --host 127.0.0.1 --port 8000
+Restart=always
+
+[Install]
+WantedBy=default.target
